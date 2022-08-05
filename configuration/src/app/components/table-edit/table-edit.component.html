@@ -1,0 +1,65 @@
+<div class="title">
+  <h2>Editar horários</h2>
+</div>
+<div class="form-container">
+  <form [formGroup]="formHours" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="legacy" style="width: 100%">
+      <input type="hidden" formControlName="id" [(ngModel)]="id">
+      <mat-label>Descrição</mat-label>
+      <input
+        type="text"
+        matInput
+        formControlName="description"
+        [(ngModel)]="itens.description"
+      />
+    </mat-form-field>
+
+    <div class="weekButtons">
+      <mat-button-toggle-group multiple appearance="standard">
+        <mat-button-toggle
+          *ngFor="let day of days; index as i"
+          (click)="toggle(day.name)"
+          [checked]="itens?.days[i].checked"
+        >
+          {{ day.name }}
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+
+    <div class="daysChecked" *ngFor="let day of days, index as i">
+      <div *ngIf="itens?.days[i].checked || day.checked">
+        <div class="day">
+          <h3>{{ day.name }}</h3>
+          <mat-form-field>
+            <input
+              matInput
+              type="time"
+              placeholder="Horário inicial"
+              formArrayName="days"
+              [value]="itens?.days[i].timeStart"
+              (change)="updateTimeStart($event, day.name)"
+              />
+          </mat-form-field>
+          <mat-form-field>
+            <input
+              matInput
+              type="time"
+              placeholder="Horário Final"
+              formArrayName="days"
+              [value]="itens?.days[i].timeFinish"
+              (change)="updateTimeFinish($event, day.name)"
+            />
+          </mat-form-field>
+          <button mat-button></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button mat-raised-button color="primary" type="submit">Salvar</button>
+      <a routerLink="/">
+        <button mat-raised-button>Voltar</button>
+      </a>
+    </div>
+  </form>
+</div>
